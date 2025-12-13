@@ -2,16 +2,28 @@ import { technology } from "@/lib/data";
 import ReactPlayer from "react-player";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import TextReveal from "./TextReveal";
 
 export default function Technology() {
   const ref = useRef(null);
+  const textContainerRef = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"]
   });
 
+  // Separate scroll tracking for text reveal - ensures sequential animation
+  // Animation ends when container's end is at 60% from top (more forgiving for bottom-of-page sections)
+  const { scrollYProgress: textScrollProgress } = useScroll({
+    target: textContainerRef,
+    offset: ["start 0.9", "end 0.6"]
+  });
+
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [0, 1, 1, 0]);
+
+  const paragraphCount = technology.text.length;
 
   return (
     <section id="technology" ref={ref} className="py-32 bg-black relative overflow-hidden min-h-screen flex items-center">
@@ -32,19 +44,30 @@ export default function Technology() {
               TECH<br/>NOLOGY
             </motion.h2>
             
-            <div className="space-y-12">
-              {technology.text.map((paragraph, idx) => (
-                <motion.p 
-                  key={idx} 
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: idx * 0.2, duration: 0.8 }}
-                  className="text-xl md:text-2xl text-white/70 font-light leading-relaxed border-l-2 border-white/10 pl-8 hover:border-white/50 transition-colors duration-500"
-                >
-                  {paragraph}
-                </motion.p>
-              ))}
+            <div ref={textContainerRef} className="space-y-12">
+              {technology.text.map((paragraph, idx) => {
+                const rangeStart = idx / paragraphCount;
+                const rangeEnd = (idx + 1) / paragraphCount;
+
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ delay: idx * 0.2, duration: 0.8 }}
+                    className="border-l-2 border-white/10 pl-8 hover:border-white/50 transition-colors duration-500"
+                  >
+                    <TextReveal
+                      className="text-xl md:text-2xl text-white font-light leading-relaxed"
+                      scrollYProgress={textScrollProgress}
+                      range={[rangeStart, rangeEnd]}
+                    >
+                      {paragraph}
+                    </TextReveal>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
 
