@@ -66,7 +66,7 @@ export default function Hero() {
         >
           SYMPHONY
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white/10 to-white/5 text-stroke-hover transition-all duration-500" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.5)" }}>
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white/10 to-white/5 text-stroke-hover transition-all duration-500" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.3)" }}>
             OF SENSES
           </span>
         </motion.h1>
