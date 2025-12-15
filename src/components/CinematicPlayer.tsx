@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, VolumeX, Maximize2, Minimize2 } from "lucide-react";
+import { getVideoInfo } from "@/lib/videoUtils";
+import { HTML5Player, type HTML5PlayerRef } from "./HTML5Player";
+import { YouTubePlayer } from "./YouTubePlayer";
 
 interface CinematicPlayerProps {
   videoUrl: string;
@@ -8,25 +11,23 @@ interface CinematicPlayerProps {
   isOpen: boolean;
 }
 
-function getVideoInfo(url: string): { type: 'youtube' | 'vimeo'; id: string } {
-  if (url.includes('vimeo.com')) {
-    const match = url.match(/vimeo\.com\/(\d+)/);
-    return { type: 'vimeo', id: match?.[1] || '' };
-  } else {
-    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
-    return { type: 'youtube', id: match?.[1] || url.split('v=')[1]?.split('&')[0] || '' };
-  }
-}
-
 export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPlayerProps) {
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // New state for HTML5 player
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const html5PlayerRef = useRef<HTML5PlayerRef>(null);
 
-  const { type, id } = getVideoInfo(videoUrl);
+  const videoInfo = getVideoInfo(videoUrl);
+  const isLocalVideo = videoInfo.type === 'local';
 
   const hideControlsWithDelay = useCallback(() => {
     if (controlsTimeoutRef.current) {
@@ -79,13 +80,70 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
-  const getEmbedUrl = () => {
-    if (type === 'vimeo') {
-      return `https://player.vimeo.com/video/${id}?autoplay=1&muted=${isMuted ? 1 : 0}&background=0&title=0&byline=0&portrait=0&controls=1&dnt=1`;
+  // HTML5 video progress tracking
+  useEffect(() => {
+    if (!isLocalVideo || !isOpen) return;
+
+    const video = html5PlayerRef.current?.getVideoElement();
+    if (!video) return;
+
+    const updateProgress = () => {
+      setCurrentTime(video.currentTime);
+      setDuration(video.duration);
+    };
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
+    video.addEventListener('timeupdate', updateProgress);
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
+    video.addEventListener('loadedmetadata', updateProgress);
+
+    return () => {
+      video.removeEventListener('timeupdate', updateProgress);
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
+      video.removeEventListener('loadedmetadata', updateProgress);
+    };
+  }, [isLocalVideo, isOpen]);
+
+  // Progress bar click handler
+  const handleProgressClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isLocalVideo || !html5PlayerRef.current) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percentage = clickX / rect.width;
+    const newTime = percentage * duration;
+
+    html5PlayerRef.current.seek(newTime);
+  }, [isLocalVideo, duration]);
+
+  // Render conditional player
+  const renderPlayer = () => {
+    if (videoInfo.type === 'local') {
+      return (
+        <HTML5Player
+          ref={html5PlayerRef}
+          src={videoInfo.source}
+          isMuted={isMuted}
+          onLoadedData={() => setIsLoaded(true)}
+          onError={(err) => console.error('Video error:', err)}
+        />
+      );
     } else {
-      return `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&controls=0&showinfo=0&iv_load_policy=3&mute=${isMuted ? 1 : 0}&enablejsapi=1`;
+      return (
+        <YouTubePlayer
+          videoId={videoInfo.source}
+          isMuted={isMuted}
+          onReady={() => setIsLoaded(true)}
+        />
+      );
     }
   };
+
+  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div 
@@ -95,42 +153,15 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
       onMouseLeave={() => setShowControls(false)}
       onMouseEnter={() => setShowControls(true)}
     >
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 1.1 }}
         animate={{ opacity: isLoaded ? 1 : 0, scale: 1 }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full h-full"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-20 z-10 pointer-events-none" />
-        
         <div className="w-full h-full flex items-center justify-center">
           <div className="relative w-full aspect-video max-h-full">
-            {isOpen && (
-              <iframe
-                src={getEmbedUrl()}
-                className="absolute inset-0 w-full h-full"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                title={title}
-              />
-            )}
-            
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black/90 via-black/50 to-transparent z-20 pointer-events-none"
-            />
-            
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-20 pointer-events-none"
-            />
-
-            <div className="absolute top-0 bottom-0 left-0 w-6 bg-gradient-to-r from-black/70 to-transparent z-20 pointer-events-none" />
-            <div className="absolute top-0 bottom-0 right-0 w-6 bg-gradient-to-l from-black/70 to-transparent z-20 pointer-events-none" />
+            {isOpen && renderPlayer()}
           </div>
         </div>
       </motion.div>
@@ -147,20 +178,32 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
             
             <div className="relative px-6 pb-6 pt-16">
-              <motion.div 
+              <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: "100%" }}
                 transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
                 className="mb-4"
               >
-                <div className="h-[2px] bg-white/10 rounded-full overflow-hidden">
-                  <motion.div 
-                    className="h-full bg-gradient-to-r from-white/60 via-white to-white/60"
-                    initial={{ x: "-100%" }}
-                    animate={{ x: "100%" }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    style={{ width: "30%" }}
-                  />
+                <div
+                  className="h-[2px] bg-white/10 rounded-full overflow-hidden cursor-pointer"
+                  onClick={handleProgressClick}
+                >
+                  {isLocalVideo ? (
+                    // Real progress for local videos
+                    <div
+                      className="h-full bg-gradient-to-r from-white/60 via-white to-white/60 transition-all duration-150"
+                      style={{ width: `${progressPercentage}%` }}
+                    />
+                  ) : (
+                    // Shimmer animation for YouTube (no API access)
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-white/60 via-white to-white/60"
+                      initial={{ x: "-100%" }}
+                      animate={{ x: "100%" }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      style={{ width: "30%" }}
+                    />
+                  )}
                 </div>
               </motion.div>
               
@@ -241,7 +284,7 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
       </AnimatePresence>
 
       <div className="absolute inset-0 pointer-events-none z-10">
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.015]"
           style={{
             backgroundImage: `repeating-linear-gradient(
@@ -254,13 +297,6 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
           }}
         />
       </div>
-
-      <div 
-        className="absolute inset-0 pointer-events-none z-10"
-        style={{
-          background: `radial-gradient(ellipse at center, transparent 0%, transparent 60%, rgba(0,0,0,0.3) 100%)`
-        }}
-      />
     </div>
   );
 }

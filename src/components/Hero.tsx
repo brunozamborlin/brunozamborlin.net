@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import generatedVideo from "@assets/minigifs/jekka-miniloop.mp4";
 import { ChevronDown } from "lucide-react";
+import heroVideo from "@assets/minigifs/blue-hands.mp4";
 
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -18,16 +18,16 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/30 z-10 mix-blend-multiply" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-20" />
         
-        <video 
-          autoPlay 
-          loop 
-          muted 
+        <video
+          autoPlay
+          loop
+          muted
           playsInline
-          className="w-full h-full object-cover opacity-60 sepia-[0.15] hue-rotate-[220deg] saturate-100 contrast-110 brightness-75"
+          className="w-full h-full object-cover opacity-50 grayscale-[60%] contrast-125 brightness-[0.5]"
         >
-          <source src={generatedVideo} type="video/mp4" />
+          <source src={heroVideo} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-cyan-900/30 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[#1e2433]/50 mix-blend-multiply" />
       </motion.div>
 
       {/* Floating Particles/Elements (Simulated with simple divs for now, could be canvas) */}

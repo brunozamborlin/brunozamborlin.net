@@ -1,12 +1,13 @@
 import { technology } from "@/lib/data";
-import ReactPlayer from "react-player";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import TextReveal from "./TextReveal";
+import CinematicPlayer from "./CinematicPlayer";
 
 export default function Technology() {
   const ref = useRef(null);
   const textContainerRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -80,18 +81,33 @@ export default function Technology() {
           >
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg blur-2xl -z-10 animate-pulse" />
             <div className="relative aspect-video w-full border border-white/10 rounded-lg overflow-hidden bg-black/50 backdrop-blur-sm shadow-2xl">
-              <ReactPlayer
-                url={technology.videoUrl}
-                width="100%"
-                height="100%"
-                controls
-                light={true}
-                playIcon={
-                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 hover:scale-110 transition-transform duration-300 group cursor-none">
-                        <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2" />
+              {!isPlaying ? (
+                <div
+                  className="relative w-full h-full cursor-pointer group"
+                  onClick={() => setIsPlaying(true)}
+                >
+                  <video
+                    src={technology.thumbnailVideo}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-300" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2" />
                     </div>
-                }
-              />
+                  </div>
+                </div>
+              ) : (
+                <CinematicPlayer
+                  videoUrl={technology.videoUrl}
+                  title="HyperSurfaces Technology"
+                  isOpen={isPlaying}
+                />
+              )}
             </div>
             
             {/* Decorative tech lines */}
