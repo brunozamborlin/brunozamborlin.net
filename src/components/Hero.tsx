@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import heroVideo from "@assets/minigifs/jekka-hero.mp4";
+import heroVideo from "@assets/minigifs/hero-loop.mp4";
 
 export default function Hero() {
   const { scrollY } = useScroll();
