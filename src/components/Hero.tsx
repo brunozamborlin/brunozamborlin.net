@@ -49,36 +49,21 @@ export default function Hero() {
         style={{ opacity }}
         className="relative z-30 text-center px-4 max-w-7xl mx-auto flex flex-col items-center justify-center h-full"
       >
-        <motion.div
-            initial={{ opacity: 0, letterSpacing: "1em" }}
-            animate={{ opacity: 1, letterSpacing: "0.2em" }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="text-sm md:text-base text-white/60 uppercase tracking-[0.2em] mb-4 font-mono"
-        >
-            Bruno Zamborlin
-        </motion.div>
-
         <motion.h1 
           initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="text-5xl md:text-8xl lg:text-[10rem] font-display font-bold text-white leading-[0.85] tracking-tighter mix-blend-screen"
+          className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold text-white leading-[0.95] tracking-tight mix-blend-screen max-w-5xl"
         >
-          SYMPHONY
+          MATERIALS AS SOUND.
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white/10 to-white/5 text-stroke-hover transition-all duration-500" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.3)" }}>
-            OF SENSES
+          <span
+            className="block text-transparent bg-clip-text bg-gradient-to-b from-white/70 to-white/20 transition-all duration-500"
+            style={{ WebkitTextStroke: "1px rgba(255,255,255,0.25)" }}
+          >
+            PLACES AS INSTRUMENTS
           </span>
         </motion.h1>
-        
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 1 }}
-          className="mt-8 text-lg md:text-xl text-white/50 max-w-xl mx-auto font-light leading-relaxed tracking-wide"
-        >
-          Materials as sound. Places as instruments.
-        </motion.p>
 
         <motion.div
             initial={{ opacity: 0, y: 20 }}

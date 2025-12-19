@@ -14,8 +14,9 @@ import stoveVideo from "@assets/minigifs/playing-stove-miniloop.mp4";
 export interface Project {
   id: string;
   title: string;
+  subtitle?: string;
   location: string;
-  category: "Art/Performances" | "Installations" | "Technology";
+  category: "Art" | "Installations" | "Technology";
   videoUrl: string;
   description: string;
   credits?: string;
@@ -26,16 +27,18 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "city-of-plants",
-    title: "City of Plants – Venice Biennale 2025",
+    title: "City of Plants",
+    subtitle: "Venice Biennale",
     location: "Venice",
-    category: "Art/Performances",
+    category: "Art",
     videoUrl: "local:city-of-plants",
     description: "An interactive installation by MAD Architects and Bruno Zamborlin that merges natural, human, and artificial intelligence into a single living ecosystem of sound and light. The work integrates real plants with environmental sensors, LED systems, and visitor interaction to create an evolving ambient composition where plant biofeedback, human movement, and algorithmic processes are translated into synchronized sound and visual responses. The installation proposes a shared intelligence system where plants, humans, and AI linked through a common language of vibrations, data, and perception create a co-creative environment. Visitor footsteps trigger musical tones that harmonize with plant-generated drones, making human presence part of an integrated ecological soundscape rather than an external disruption.",
     thumbnailVideo: cityOfPlantsVideo
   },
   {
     id: "audi-city-lab",
-    title: "Audi City Lab",
+    title: "City Lab",
+    subtitle: "Milan Design Week",
     location: "Milan",
     category: "Installations",
     videoUrl: "local:audi-city-lab",
@@ -45,6 +48,7 @@ export const projects: Project[] = [
   {
     id: "garden-of-moments",
     title: "Garden of Moments",
+    subtitle: "AlUla",
     location: "Al Ula",
     category: "Installations",
     videoUrl: "local:garden-of-moments",
@@ -54,7 +58,8 @@ export const projects: Project[] = [
   },
   {
     id: "post-post",
-    title: "Post post",
+    title: "Post Post",
+    subtitle: "Jerusalem",
     location: "Jerusalem",
     category: "Installations",
     videoUrl: "local:post-post",
@@ -64,16 +69,18 @@ export const projects: Project[] = [
   },
   {
     id: "venice-biennale-2023",
-    title: "Venice Biennale 2023",
+    title: "BelMondo Tracks",
+    subtitle: "Venice Biennale",
     location: "Venice",
-    category: "Art/Performances",
+    category: "Art",
     videoUrl: "https://www.youtube.com/watch?v=EOGTSC-pW5w",
     description: "A project documenting the BelMondo Tracks initiative in Calabria's abandoned Belmonte castle garden. The work combines light architectural interventions and the creation of interactive sound furniture to encourage community listening and engagement. Vibrations from revitalization activities were transformed into musical instruments for the installation. Partnership with Orizzontale architecture. Music composition by Michele Tadini. Interactive installation at Italian Pavilion featuring a living room with vibration sensors. Explores relational practices and digital tools with a view to playfulness and active listening.",
     thumbnailVideo: biennaleVideo
   },
   {
     id: "airplane-instrument",
-    title: "Airplane as a musical instrument",
+    title: "Aircraft as Instrument",
+    subtitle: "Moscow",
     location: "Moscow",
     category: "Technology",
     videoUrl: "local:airplane-instrument",
@@ -82,16 +89,18 @@ export const projects: Project[] = [
   },
   {
     id: "plaid-elex",
-    title: "Plaid + Bruno Zamborlin: ELEX",
+    title: "ELEX",
+    subtitle: "Music video with Plaid",
     location: "London",
-    category: "Art/Performances",
+    category: "Art",
     videoUrl: "local:plaid-elex",
     description: "Music collaboration between Bruno Zamborlin and Plaid (Warp records)",
     thumbnailVideo: plaidElexVideo
   },
   {
     id: "mazda",
-    title: "Mazda commercial",
+    title: "Automotive as Instrument",
+    subtitle: "Commercial work",
     location: "London",
     category: "Technology",
     videoUrl: "https://www.youtube.com/watch?v=QlCNhOm3cCs",
@@ -100,25 +109,28 @@ export const projects: Project[] = [
   },
   {
     id: "plaid-diana",
-    title: "Plaid + Bruno Zamborlin: Diana",
+    title: "Diana (live)",
+    subtitle: "Performance with Plaid",
     location: "Turin",
-    category: "Art/Performances",
+    category: "Art",
     videoUrl: "https://www.youtube.com/watch?v=o95Momw3-vA",
     description: "Performable sound sculpture, featured as part of MTV Digital Days at Galleria di Diana, Venaria Palace, Turin.",
     thumbnailVideo: dianaVideo
   },
   {
     id: "plaid-35-summers",
-    title: "Plaid + Bruno Zamborlin: 35 Summers (live)",
+    title: "35 Summers (live)",
+    subtitle: "Performance with Plaid",
     location: "RoundHouse (London)",
-    category: "Art/Performances",
+    category: "Art",
     videoUrl: "local:plaid-35-summers",
     description: "Performing 35 Summers live at the London RoundHouse for Imogen Heap's Reverb festival",
     thumbnailVideo: summerVideo
   },
   {
     id: "playing-stove",
-    title: "Playing a stove",
+    title: "Stove as Instrument",
+    subtitle: "London",
     location: "London",
     category: "Technology",
     videoUrl: "https://www.youtube.com/watch?v=_7J6iBd2qVg",
@@ -127,7 +139,7 @@ export const projects: Project[] = [
   },
 ];
 
-export const categories = ["All", "Art/Performances", "Installations", "Technology"];
+export const categories = ["All", "Art", "Installations", "Technology"];
 
 export const about = {
   bio: "Bruno Zamborlin, PhD, is an AI researcher and artist, recognized for revolutionizing human-computer interaction through his startups: Mogees, HyperSurfaces, and HyperSentience. His work focuses on transforming everyday objects and surfaces into interactive, intelligent entities, thereby redefining our interaction with the space and between us. Based in London and Milan, Bruno Zamborlin is a four times TEDx speaker and honorary research fellow at Goldsmiths, univ. Of London. His artworks have been showcased at venues like the Venice Biennale and the London Victoria & Albert Museum.",

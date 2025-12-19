@@ -280,6 +280,12 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
                 <h3 className="text-xl md:text-2xl font-bold text-white leading-none mb-2 group-hover:text-white transition-colors">
                     {project.title}
                 </h3>
+
+                {project.subtitle && (
+                  <p className="text-[10px] md:text-xs text-white/45 uppercase tracking-widest mb-3">
+                    {project.subtitle}
+                  </p>
+                )}
                 
                 <div className="w-8 h-[1px] bg-white/50 group-hover:w-full transition-all duration-500 ease-out" />
                 
@@ -317,6 +323,11 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
                                 <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full">{project.category}</span>
                             </div>
                             <DialogTitle className="text-2xl md:text-3xl font-display font-bold text-white mb-2 leading-tight tracking-tight">{project.title}</DialogTitle>
+                            {project.subtitle && (
+                              <div className="text-xs text-white/50 uppercase tracking-[0.25em]">
+                                {project.subtitle}
+                              </div>
+                            )}
                             <div className="w-12 h-[1px] bg-gradient-to-r from-white/50 to-transparent mt-4" />
                         </motion.div>
                     </DialogHeader>

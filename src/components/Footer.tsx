@@ -8,7 +8,11 @@ export default function Footer() {
         
         <div className="flex gap-6">
            {/* Social links could go here */}
-           <span className="text-white/20 text-sm uppercase tracking-widest">Symphony of Senses</span>
+           <span className="text-white/20 text-xs uppercase tracking-widest whitespace-pre-line text-center md:text-right">
+             Materials as sound.
+             {"\n"}
+             Places as instruments
+           </span>
         </div>
       </div>
     </footer>
