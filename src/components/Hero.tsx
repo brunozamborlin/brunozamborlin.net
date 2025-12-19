@@ -55,12 +55,10 @@ export default function Hero() {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold text-white leading-[0.95] tracking-tight mix-blend-screen max-w-5xl"
         >
-          MATERIALS AS SOUND.
-          <br />
-          <span
-            className="block text-transparent bg-clip-text bg-gradient-to-b from-white/70 to-white/20 transition-all duration-500"
-            style={{ WebkitTextStroke: "1px rgba(255,255,255,0.25)" }}
-          >
+          <span className="block text-white drop-shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
+            MATERIALS AS SOUND.
+          </span>
+          <span className="block text-[#9AA3AD] drop-shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
             PLACES AS INSTRUMENTS
           </span>
         </motion.h1>
