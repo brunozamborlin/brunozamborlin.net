@@ -26,6 +26,8 @@
   
   --font-sans: "Helvetica Black", "HelveticaNeue-Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-display: "Helvetica Black", "HelveticaNeue-Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "Helvetica Black", "HelveticaNeue-Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: "Helvetica Black", "HelveticaNeue-Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
   
   --radius-sm: 0.125rem;
   --radius-md: 0.25rem;
@@ -63,6 +65,12 @@ body {
   font-weight: 900;
   overflow-x: hidden;
   cursor: none; /* Hide default cursor for custom one */
+}
+
+/* Force Helvetica Black everywhere (overrides Tailwind utilities like font-mono / font-light). */
+body, body * {
+  font-family: var(--font-sans) !important;
+  font-weight: 900 !important;
 }
 
 /* Ensure form controls inherit the same font + weight */

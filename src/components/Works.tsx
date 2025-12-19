@@ -17,6 +17,7 @@ export default function Works() {
   // Global scroll-based title zoom once the heading reaches the top of the viewport.
   const { scrollY } = useScroll();
   const titleTriggerScrollY = useMotionValue(0);
+  const titleTriggerTopPx = useMotionValue(0);
 
   useEffect(() => {
     const el = titleRef.current;
@@ -44,9 +45,30 @@ export default function Works() {
     };
   }, [titleTriggerScrollY]);
 
+  // Use navbar height as the "visual top" so the effect doesn't feel delayed behind the fixed menu.
+  useEffect(() => {
+    const nav = document.querySelector("nav");
+    if (!nav) return;
+
+    const measureNav = () => {
+      const rect = nav.getBoundingClientRect();
+      titleTriggerTopPx.set(rect.height);
+    };
+
+    measureNav();
+    window.addEventListener("resize", measureNav);
+    const ro = new ResizeObserver(measureNav);
+    ro.observe(nav);
+
+    return () => {
+      window.removeEventListener("resize", measureNav);
+      ro.disconnect();
+    };
+  }, [titleTriggerTopPx]);
+
   const titleScrollPx = useTransform(
-    [scrollY, titleTriggerScrollY],
-    ([y, triggerY]) => Math.max(0, y - triggerY)
+    [scrollY, titleTriggerScrollY, titleTriggerTopPx],
+    ([y, triggerY, topPx]) => Math.max(0, y - (triggerY - topPx))
   );
 
   const titleScaleRaw = useTransform(titleScrollPx, [0, 520], [1, 7], { clamp: true });
@@ -98,7 +120,7 @@ export default function Works() {
               transformOrigin: "left top",
               willChange: "transform, opacity, filter",
             }}
-            className="text-6xl md:text-9xl font-display font-bold text-white/10 leading-none pointer-events-auto mix-blend-difference"
+            className="text-6xl md:text-9xl font-display font-bold text-white/10 leading-none pointer-events-none mix-blend-difference"
           >
             SELECTED
             <span className="block">WORKS</span>
