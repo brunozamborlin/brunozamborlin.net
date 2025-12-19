@@ -10,7 +10,6 @@ import summerVideo from "@assets/minigifs/plaid-35-summers-miniloop.mp4";
 import mazdaVideo from "@assets/minigifs/mazda-miniloop.mp4";
 import dianaVideo from "@assets/minigifs/plaid-diana-miniloop.mp4";
 import stoveVideo from "@assets/minigifs/playing-stove-miniloop.mp4";
-import hypersurfacesVideo from "@assets/minigifs/hypersurfaces-miniloop.mp4";
 
 export interface Project {
   id: string;
@@ -71,15 +70,6 @@ export const projects: Project[] = [
     videoUrl: "https://www.youtube.com/watch?v=EOGTSC-pW5w",
     description: "A project documenting the BelMondo Tracks initiative in Calabria's abandoned Belmonte castle garden. The work combines light architectural interventions and the creation of interactive sound furniture to encourage community listening and engagement. Vibrations from revitalization activities were transformed into musical instruments for the installation. Partnership with Orizzontale architecture. Music composition by Michele Tadini. Interactive installation at Italian Pavilion featuring a living room with vibration sensors. Explores relational practices and digital tools with a view to playfulness and active listening.",
     thumbnailVideo: biennaleVideo
-  },
-  {
-    id: "tedx-sf",
-    title: "TEDx San Francisco",
-    location: "San Francisco",
-    category: "Technology",
-    videoUrl: "local:tedx-sf",
-    description: "Fourth TEDx talk: How vibration can turn any object into data-enabled interface?",
-    thumbnailVideo: tedVideo
   },
   {
     id: "airplane-instrument",
@@ -146,8 +136,8 @@ export const about = {
 };
 
 export const technology = {
-  videoUrl: "local:hypersurfaces",
-  thumbnailVideo: hypersurfacesVideo,
+  videoUrl: "local:tedx-sf",
+  thumbnailVideo: tedVideo,
   text: [
     "By coupling vibration sensors with specialized algorithms, inanimate objects, surfaces, and entire spaces can be enabled to respond to human touch and atmospheric phenomena in real-time.",
     "The natural acoustics of solid surfaces can be altered so as to produce musical sounds which are always unique, as is every lightest touch, gentle caress, or falling raindrop.",
