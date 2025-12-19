@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { categories, projects, type Project } from "@/lib/data";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
@@ -7,10 +7,58 @@ import CinematicPlayer from "./CinematicPlayer";
 export default function Works() {
   const [filter, setFilter] = useState("All");
   const containerRef = useRef(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
+
+  // Global scroll-based title zoom once the heading reaches the top of the viewport.
+  const { scrollY } = useScroll();
+  const titleTriggerScrollY = useMotionValue(0);
+
+  useEffect(() => {
+    const el = titleRef.current;
+    if (!el) return;
+
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      titleTriggerScrollY.set(window.scrollY + rect.top);
+    };
+
+    // Measure a few times to handle font/video/layout settling.
+    measure();
+    const raf1 = window.requestAnimationFrame(measure);
+    const raf2 = window.requestAnimationFrame(measure);
+
+    window.addEventListener("resize", measure);
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+
+    return () => {
+      window.cancelAnimationFrame(raf1);
+      window.cancelAnimationFrame(raf2);
+      window.removeEventListener("resize", measure);
+      ro.disconnect();
+    };
+  }, [titleTriggerScrollY]);
+
+  const titleScrollPx = useTransform(
+    [scrollY, titleTriggerScrollY],
+    ([y, triggerY]) => Math.max(0, y - triggerY)
+  );
+
+  const titleScaleRaw = useTransform(titleScrollPx, [0, 520], [1, 7], { clamp: true });
+  const titleScale = useSpring(titleScaleRaw, { stiffness: 160, damping: 28, mass: 0.25 });
+  const titleOpacity = useTransform(titleScrollPx, [0, 380], [1, 0], { clamp: true });
+  const titleBlur = useTransform(titleScrollPx, [0, 380], ["blur(0px)", "blur(10px)"], { clamp: true });
+  const titleEntryOpacityRaw = useMotionValue(0);
+  const titleEntryOpacity = useSpring(titleEntryOpacityRaw, { stiffness: 160, damping: 28, mass: 0.35 });
+  const titleCombinedOpacity = useTransform(
+    [titleOpacity, titleEntryOpacity],
+    ([scrollFade, entryFade]) => scrollFade * entryFade
+  );
 
   // Parallax speeds for columns
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -34,34 +82,54 @@ export default function Works() {
 
   return (
     <section id="works" ref={containerRef} className="py-32 px-4 md:px-6 container mx-auto relative z-10 min-h-screen">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8 sticky top-8 z-20 mix-blend-difference pointer-events-none">
-        <motion.h2 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="text-6xl md:text-9xl font-display font-bold text-white/10 leading-none pointer-events-auto"
-        >
-          SELECTED WORKS
-        </motion.h2>
-        
-        <div className="flex flex-wrap gap-2 md:gap-4 pointer-events-auto">
-          {categories.map((cat, i) => (
-            <motion.button
-              key={cat}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => setFilter(cat)}
-              className={`text-xs uppercase tracking-widest px-4 py-2 rounded-full border transition-all duration-300 backdrop-blur-md ${
-                filter === cat
-                  ? "border-white text-black bg-white"
-                  : "border-white/10 text-white/50 hover:border-white/30 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              {cat}
-            </motion.button>
-          ))}
+      {/* Sticky title: stays at the very top so the "zoom/disappear" starts exactly when it hits the viewport top */}
+      <div className="sticky top-0 z-30 pointer-events-none">
+        <div className="flex justify-between items-end">
+          <motion.h2 
+            initial={{ x: -50 }}
+            whileInView={{ x: 0 }}
+            viewport={{ once: true }}
+            onViewportEnter={() => titleEntryOpacityRaw.set(1)}
+            ref={titleRef}
+            style={{
+              scale: titleScale,
+              opacity: titleCombinedOpacity,
+              filter: titleBlur,
+              transformOrigin: "left top",
+              willChange: "transform, opacity, filter",
+            }}
+            className="text-6xl md:text-9xl font-display font-bold text-white/10 leading-none pointer-events-auto mix-blend-difference"
+          >
+            SELECTED
+            <span className="block">WORKS</span>
+          </motion.h2>
+        </div>
+      </div>
+
+      {/* Sticky filters: sit just below the fixed navbar, with a dark panel to avoid video/text overlap */}
+      <div className="sticky top-20 md:top-24 z-30 pointer-events-none mt-6 md:mt-8 mb-24">
+        <div className="flex flex-col md:flex-row justify-end items-end gap-8">
+          <div className="pointer-events-auto">
+            <div className="flex flex-wrap gap-2 md:gap-4 px-3 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/10 shadow-2xl shadow-black/50">
+              {categories.map((cat, i) => (
+                <motion.button
+                  key={cat}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  onClick={() => setFilter(cat)}
+                  className={`text-xs uppercase tracking-widest px-4 py-2 rounded-full border transition-all duration-300 ${
+                    filter === cat
+                      ? "border-white text-black bg-white"
+                      : "border-white/10 text-white/70 hover:border-white/30 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  {cat}
+                </motion.button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
