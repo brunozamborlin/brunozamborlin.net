@@ -102,6 +102,23 @@ export default function Works() {
     return cols;
   }, [filteredProjects]);
 
+  // Helper function to determine aspect ratio for specific projects
+  const getAspectRatio = (project: Project, columnIndex: number, indexInColumn: number): string => {
+    // Override aspect ratio for specific projects to make them smaller
+    if (project.id === "airplane-instrument" || project.id === "playing-stove") {
+      return "aspect-[16/9]";
+    }
+
+    // Default column-based logic
+    if (columnIndex === 0) {
+      return indexInColumn % 2 === 0 ? "aspect-[4/5]" : "aspect-[4/3]";
+    } else if (columnIndex === 1) {
+      return indexInColumn % 2 !== 0 ? "aspect-square" : "aspect-[16/9]";
+    } else {
+      return indexInColumn % 3 === 0 ? "aspect-[3/4]" : "aspect-[4/3]";
+    }
+  };
+
   return (
     <section id="works" ref={containerRef} className="py-32 px-4 md:px-6 container mx-auto relative z-10 min-h-screen">
       {/* Sticky title: stays at the very top so the "zoom/disappear" starts exactly when it hits the viewport top */}
@@ -163,7 +180,7 @@ export default function Works() {
               key={project.id}
               project={project}
               index={i}
-              aspect={i % 2 === 0 ? "aspect-[4/5]" : "aspect-[4/3]"}
+              aspect={project.id === "airplane-instrument" || project.id === "playing-stove" ? "aspect-[16/9]" : (i % 2 === 0 ? "aspect-[4/5]" : "aspect-[4/3]")}
             />
           ))}
         </AnimatePresence>
@@ -175,7 +192,7 @@ export default function Works() {
         <motion.div style={{ y: y1 }} className="flex flex-col gap-8 md:mt-0">
           <AnimatePresence mode="popLayout">
             {columns[0].map((project, i) => (
-              <WorkCard key={project.id} project={project} index={i} aspect={i % 2 === 0 ? "aspect-[4/5]" : "aspect-[4/3]"} />
+              <WorkCard key={project.id} project={project} index={i} aspect={getAspectRatio(project, 0, i)} />
             ))}
           </AnimatePresence>
         </motion.div>
@@ -184,7 +201,7 @@ export default function Works() {
         <motion.div style={{ y: y2 }} className="hidden md:flex flex-col gap-8 -mt-24">
           <AnimatePresence mode="popLayout">
             {columns[1].map((project, i) => (
-              <WorkCard key={project.id} project={project} index={i} aspect={i % 2 !== 0 ? "aspect-square" : "aspect-[16/9]"} />
+              <WorkCard key={project.id} project={project} index={i} aspect={getAspectRatio(project, 1, i)} />
             ))}
           </AnimatePresence>
         </motion.div>
@@ -193,7 +210,7 @@ export default function Works() {
         <motion.div style={{ y: y3 }} className="hidden lg:flex flex-col gap-8 mt-12">
           <AnimatePresence mode="popLayout">
             {columns[2].map((project, i) => (
-              <WorkCard key={project.id} project={project} index={i} aspect={i % 3 === 0 ? "aspect-[3/4]" : "aspect-[4/3]"} />
+              <WorkCard key={project.id} project={project} index={i} aspect={getAspectRatio(project, 2, i)} />
             ))}
           </AnimatePresence>
         </motion.div>
