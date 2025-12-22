@@ -13,7 +13,8 @@ export default function About() {
   });
 
   // Separate scroll tracking for text reveal - ensures full animation completes
-  // Animation ends when container's end is at 60% from top (more forgiving for bottom-of-page sections)
+  // Use a longer scroll range for the reveal, and rely on extra bottom padding (below)
+  // so the animation can still reach 100% even near the end of the page.
   const { scrollYProgress: textScrollProgress } = useScroll({
     target: textContainerRef,
     offset: ["start 0.9", "end 0.6"]
@@ -23,7 +24,7 @@ export default function About() {
   const textY = useTransform(scrollYProgress, [0, 1], [100, 0]);
 
   return (
-    <section id="about" ref={containerRef} className="py-32 container mx-auto px-4 md:px-6 min-h-screen flex flex-col justify-center">
+    <section id="about" ref={containerRef} className="pt-32 pb-64 container mx-auto px-4 md:px-6 min-h-screen flex flex-col justify-center">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
         <motion.div 
             style={{ y: titleY }}
@@ -45,7 +46,7 @@ export default function About() {
             </p>
             
             <motion.div 
-                className="mt-12 p-6 border border-white/10 bg-white/5 backdrop-blur-sm rounded-lg"
+                className="mt-12 p-6 border border-white/10 bg-white/5 backdrop-blur-sm rounded-lg hidden lg:block"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -101,6 +102,23 @@ export default function About() {
             >
               {about.practice}
             </TextReveal>
+          </motion.div>
+
+          {/* Mobile contact (shown below text on small screens) */}
+          <motion.div 
+              className="lg:hidden p-6 border border-white/10 bg-white/5 backdrop-blur-sm rounded-lg"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+          >
+              <h3 className="text-sm text-white/40 uppercase tracking-widest mb-4">Contact</h3>
+              <a 
+                  href={`mailto:${about.contact}`} 
+                  className="text-xl md:text-2xl text-white font-display hover:text-white/70 transition-colors break-all"
+              >
+                  {about.contact}
+              </a>
           </motion.div>
         </motion.div>
       </div>

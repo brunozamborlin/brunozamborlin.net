@@ -155,7 +155,22 @@ export default function Works() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
+      {/* Mobile: single column showing all projects */}
+      <div className="md:hidden flex flex-col gap-8">
+        <AnimatePresence mode="popLayout">
+          {filteredProjects.map((project, i) => (
+            <WorkCard
+              key={project.id}
+              project={project}
+              index={i}
+              aspect={i % 2 === 0 ? "aspect-[4/5]" : "aspect-[4/3]"}
+            />
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Desktop / tablet: three-column staggered layout */}
+      <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
         {/* Column 1 */}
         <motion.div style={{ y: y1 }} className="flex flex-col gap-8 md:mt-0">
           <AnimatePresence mode="popLayout">
