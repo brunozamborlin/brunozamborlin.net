@@ -275,7 +275,7 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
                 style={{ transform: "translateZ(-20px)" }}
             >
                 {project.thumbnailVideo ? (
-                    <video 
+                    <video
                         ref={videoRef}
                         src={project.thumbnailVideo}
                         autoPlay
@@ -283,13 +283,13 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
                         loop
                         playsInline
                         preload="auto"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover brightness-dim"
                     />
                 ) : project.thumbnailImage ? (
                     <img
                         src={project.thumbnailImage}
                         alt={project.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover brightness-dim"
                     />
                 ) : (
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />

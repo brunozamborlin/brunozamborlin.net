@@ -177,3 +177,18 @@ button, input, textarea, select {
   border: 1px solid rgba(255, 255, 255, 0.3);
   pointer-events: none;
 }
+
+/* Video Brightness Hover Effect */
+.brightness-dim {
+  filter: brightness(0.25);
+  transition: filter 700ms ease-out;
+}
+
+.group:hover .brightness-dim {
+  filter: brightness(1);
+}
+
+/* Performance optimization for video elements */
+video.brightness-dim {
+  will-change: filter, transform;
+}
