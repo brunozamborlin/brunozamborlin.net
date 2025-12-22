@@ -89,7 +89,13 @@ export default function Technology() {
                     muted
                     loop
                     playsInline
+                    preload="auto"
                     className="w-full h-full object-cover"
+                    onCanPlay={(e) => {
+                      const v = e.currentTarget;
+                      v.muted = true;
+                      v.play().catch(() => {});
+                    }}
                   />
 
                   {/* Minimal hover frame */}

@@ -207,6 +207,7 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const useDarkOverlayText = project.id === "plaid-diana";
   const darkOverlayTextClass = "text-black/60";
   const darkOverlaySubtextClass = "text-black/45";
@@ -236,6 +237,14 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
     x.set(0);
     y.set(0);
   };
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (v) {
+      v.muted = true;
+      v.play().catch(() => {});
+    }
+  }, []);
 
   return (
     <motion.div
@@ -267,11 +276,13 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
             >
                 {project.thumbnailVideo ? (
                     <video 
+                        ref={videoRef}
                         src={project.thumbnailVideo}
                         autoPlay
                         muted
                         loop
                         playsInline
+                        preload="auto"
                         className="w-full h-full object-cover"
                     />
                 ) : project.thumbnailImage ? (
