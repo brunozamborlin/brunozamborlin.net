@@ -192,6 +192,11 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const useDarkOverlayText = project.id === "plaid-diana";
+  const darkOverlayTextClass = "text-black/60";
+  const darkOverlaySubtextClass = "text-black/45";
+  const darkOverlayBorderClass = "border-black/20";
+  const darkOverlayLineClass = "bg-black/35";
 
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
   const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
@@ -274,27 +279,47 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
                 style={{ transform: "translateZ(30px)" }}
             >
                 <div className="flex items-center gap-2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-4 group-hover:translate-y-0">
-                    <span className="text-[10px] font-mono text-white/70 uppercase tracking-widest border border-white/20 px-2 py-1 rounded-full backdrop-blur-sm">{project.category}</span>
+                    <span
+                      className={`text-[10px] font-mono uppercase tracking-widest border px-2 py-1 rounded-full backdrop-blur-sm ${
+                        useDarkOverlayText
+                          ? `${darkOverlayTextClass} ${darkOverlayBorderClass}`
+                          : "text-white/70 border-white/20"
+                      }`}
+                    >
+                      {project.category}
+                    </span>
                 </div>
                 
-                <h3 className="text-xl md:text-2xl font-bold text-white leading-none mb-2 group-hover:text-white transition-colors">
+                <h3
+                  className={`text-xl md:text-2xl font-bold leading-none mb-2 transition-colors ${
+                    useDarkOverlayText ? `${darkOverlayTextClass} group-hover:${darkOverlayTextClass}` : "text-white group-hover:text-white"
+                  }`}
+                >
                     {project.title}
                 </h3>
 
                 {project.subtitle && (
-                  <p className="text-[10px] md:text-xs text-white/45 uppercase tracking-widest mb-3">
+                  <p
+                    className={`text-[10px] md:text-xs uppercase tracking-widest mb-3 ${
+                      useDarkOverlayText ? darkOverlaySubtextClass : "text-white/45"
+                    }`}
+                  >
                     {project.subtitle}
                   </p>
                 )}
                 
-                <div className="w-8 h-[1px] bg-white/50 group-hover:w-full transition-all duration-500 ease-out" />
+                <div
+                  className={`w-8 h-[1px] group-hover:w-full transition-all duration-500 ease-out ${
+                    useDarkOverlayText ? darkOverlayLineClass : "bg-white/50"
+                  }`}
+                />
             </div>
 
           </motion.div>
         </DialogTrigger>
         
         <DialogContent className="max-w-7xl bg-black border-white/5 p-0 overflow-hidden w-[95vw] h-[90vh] md:h-[85vh] md:w-full shadow-2xl shadow-black/50">
-            <div className="flex flex-col md:flex-row h-full">
+            <div className="flex flex-col md:flex-row h-full min-h-0">
                 <div className="w-full md:w-2/3 h-[40vh] md:h-full bg-black relative">
                     <CinematicPlayer 
                       videoUrl={project.videoUrl}
@@ -303,7 +328,7 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
                     />
                 </div>
 
-                <div className="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto border-l border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black">
+                <div className="w-full md:w-1/3 p-6 md:p-8 min-h-0 overflow-y-auto border-l border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black">
                     <DialogHeader>
                         <motion.div 
                           initial={{ opacity: 0, y: 20 }}

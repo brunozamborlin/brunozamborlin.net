@@ -160,7 +160,7 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
         className="relative w-full h-full"
       >
         <div className="w-full h-full flex items-center justify-center">
-          <div className="relative w-full aspect-video max-h-full">
+          <div className="relative w-full h-full">
             {isOpen && renderPlayer()}
           </div>
         </div>

@@ -98,7 +98,7 @@ export default function Technology() {
               </DialogTrigger>
 
               <DialogContent className="max-w-7xl bg-black border-white/5 p-0 overflow-hidden w-[95vw] h-[90vh] md:h-[85vh] md:w-full shadow-2xl shadow-black/50">
-                <div className="flex flex-col md:flex-row h-full">
+                <div className="flex flex-col md:flex-row h-full min-h-0">
                   <div className="w-full md:w-2/3 h-[40vh] md:h-full bg-black relative">
                     <CinematicPlayer
                       videoUrl={technology.videoUrl}
@@ -107,7 +107,7 @@ export default function Technology() {
                     />
                   </div>
 
-                  <div className="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto border-l border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black">
+                  <div className="w-full md:w-1/3 p-6 md:p-8 min-h-0 overflow-y-auto border-l border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black">
                     <DialogHeader>
                       <div className="mb-8">
                         <div className="flex flex-wrap gap-2 text-[10px] font-mono text-white/50 uppercase tracking-wider mb-6">
