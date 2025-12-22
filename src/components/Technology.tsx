@@ -3,11 +3,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import TextReveal from "./TextReveal";
 import CinematicPlayer from "./CinematicPlayer";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Technology() {
   const ref = useRef(null);
   const textContainerRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -79,13 +80,9 @@ export default function Technology() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="relative"
           >
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg blur-2xl -z-10 animate-pulse" />
-            <div className="relative aspect-video w-full border border-white/10 rounded-lg overflow-hidden bg-black/50 backdrop-blur-sm shadow-2xl">
-              {!isPlaying ? (
-                <div
-                  className="relative w-full h-full cursor-pointer group"
-                  onClick={() => setIsPlaying(true)}
-                >
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <div className="group cursor-none relative w-full aspect-video bg-white/5 overflow-hidden rounded-sm">
                   <video
                     src={technology.thumbnailVideo}
                     autoPlay
@@ -94,25 +91,44 @@ export default function Technology() {
                     playsInline
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-300" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform duration-300">
-                      <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2" />
+
+                  {/* Minimal hover frame */}
+                  <div className="absolute inset-0 border border-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-sm" />
+                </div>
+              </DialogTrigger>
+
+              <DialogContent className="max-w-7xl bg-black border-white/5 p-0 overflow-hidden w-[95vw] h-[90vh] md:h-[85vh] md:w-full shadow-2xl shadow-black/50">
+                <div className="flex flex-col md:flex-row h-full">
+                  <div className="w-full md:w-2/3 h-[40vh] md:h-full bg-black relative">
+                    <CinematicPlayer
+                      videoUrl={technology.videoUrl}
+                      title="Technology"
+                      isOpen={dialogOpen}
+                    />
+                  </div>
+
+                  <div className="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto border-l border-white/5 bg-gradient-to-b from-black via-zinc-950 to-black">
+                    <DialogHeader>
+                      <div className="mb-8">
+                        <div className="flex flex-wrap gap-2 text-[10px] font-mono text-white/50 uppercase tracking-wider mb-6">
+                          <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full">Technology</span>
+                        </div>
+                        <DialogTitle className="text-2xl md:text-3xl font-display font-bold text-white mb-2 leading-tight tracking-tight">
+                          Technology
+                        </DialogTitle>
+                        <div className="w-12 h-[1px] bg-gradient-to-r from-white/50 to-transparent mt-4" />
+                      </div>
+                    </DialogHeader>
+
+                    <div className="space-y-6 text-white/60 text-sm md:text-base leading-relaxed font-light">
+                      {technology.text.map((p, idx) => (
+                        <p key={idx}>{p}</p>
+                      ))}
                     </div>
                   </div>
                 </div>
-              ) : (
-                <CinematicPlayer
-                  videoUrl={technology.videoUrl}
-                  title="HyperSurfaces Technology"
-                  isOpen={isPlaying}
-                />
-              )}
-            </div>
-            
-            {/* Decorative tech lines */}
-            <div className="absolute -bottom-8 -right-8 w-32 h-32 border-r border-b border-white/20 rounded-br-3xl opacity-50" />
-            <div className="absolute -top-8 -left-8 w-16 h-16 border-l border-t border-white/20 rounded-tl-3xl opacity-50" />
+              </DialogContent>
+            </Dialog>
           </motion.div>
         </div>
       </div>

@@ -252,21 +252,21 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
                         muted
                         loop
                         playsInline
-                        className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                        className="w-full h-full object-cover"
                     />
                 ) : project.thumbnailImage ? (
                     <img
                         src={project.thumbnailImage}
                         alt={project.title}
-                        className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                        className="w-full h-full object-cover"
                     />
                 ) : (
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
                 )}
             </div>
-            
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+
+            {/* Minimal hover frame */}
+            <div className="absolute inset-0 border border-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-sm" />
 
             {/* Content Floating in 3D */}
             <div 
@@ -288,14 +288,7 @@ function WorkCard({ project, index, aspect }: { project: Project; index: number;
                 )}
                 
                 <div className="w-8 h-[1px] bg-white/50 group-hover:w-full transition-all duration-500 ease-out" />
-                
-                <div className="mt-4 flex items-center justify-between w-full opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 delay-100">
-                    <span className="text-[10px] text-white/50 uppercase tracking-widest">{project.location}</span>
-                </div>
             </div>
-
-            {/* Hover shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover:animate-shine pointer-events-none" />
 
           </motion.div>
         </DialogTrigger>

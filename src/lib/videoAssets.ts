@@ -8,6 +8,7 @@ import airplaneInstrumentVideo from "@assets/videos/airplane-instrument.mp4";
 import plaidElexVideo from "@assets/videos/plaid-elex.mp4";
 import plaid35SummersVideo from "@assets/videos/plaid-35-summers.mp4";
 import hypersurfacesVideo from "@assets/videos/hypersurfaces.mp4";
+import fieldOfInstrumentsVideo from "@assets/videos/field-of-instruments.mp4";
 
 export const localVideos = {
   "city-of-plants": cityOfPlantsVideo,
@@ -19,6 +20,7 @@ export const localVideos = {
   "plaid-elex": plaidElexVideo,
   "plaid-35-summers": plaid35SummersVideo,
   "hypersurfaces": hypersurfacesVideo,
+  "field-of-instruments": fieldOfInstrumentsVideo,
 } as const;
 
 export type LocalVideoId = keyof typeof localVideos;

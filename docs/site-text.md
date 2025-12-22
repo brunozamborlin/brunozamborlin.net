@@ -66,6 +66,17 @@ Last updated: 2025-12-19
 - **Description**: Spaces as Playgrounds. The Post Post installation reimagines an entire square as a canvas for collective creativity and play. Here, iconic coloured letterboxes becomes vibrant, interactive instruments. The installation invites visitors to touch interactive letterboxes that trigger colored light displays on a postal office facade, creating real-time sound and light compositions. The work emphasizes community building, collective music creation, and active listening as central themes.
 - **Credits**: Collaborators: Yuvi Gerstein & Shuli Oded
 
+#### Field of Instruments
+
+- **Location**: Paris
+- **Category**: Installations
+- **Subtitle**: La Défense, Paris
+- **Description**: Public installation composed of 21 metallic sound instruments distributed across an open urban space.
+
+  Each instrument responds to touch, scraping, and percussive gestures, producing sound through tuned physical interactions. The instruments operate as a collective system: individual actions generate discrete sonic events that interlock into a coherent, continuously evolving composition. The spatial arrangement encourages distributed participation, allowing multiple performers to play simultaneously while maintaining overall harmonic stability.
+
+  Commissioned by Lynk & Co. Music by Michele Tadini.
+
 #### BelMondo Tracks
 
 - **Location**: Venice

@@ -10,6 +10,7 @@ import summerVideo from "@assets/minigifs/plaid-35-summers-miniloop.mp4";
 import mazdaVideo from "@assets/minigifs/mazda-miniloop.mp4";
 import dianaVideo from "@assets/minigifs/plaid-diana-miniloop.mp4";
 import stoveVideo from "@assets/minigifs/playing-stove-miniloop.mp4";
+import fieldOfInstrumentsVideo from "@assets/minigifs/field-of-instruments-miniloop.mp4";
 
 export interface Project {
   id: string;
@@ -66,6 +67,16 @@ export const projects: Project[] = [
     description: "Spaces as Playgrounds. The Post Post installation reimagines an entire square as a canvas for collective creativity and play. Here, iconic coloured letterboxes becomes vibrant, interactive instruments. The installation invites visitors to touch interactive letterboxes that trigger colored light displays on a postal office facade, creating real-time sound and light compositions. The work emphasizes community building, collective music creation, and active listening as central themes.",
     credits: "Collaborators: Yuvi Gerstein & Shuli Oded",
     thumbnailVideo: postpostVideo
+  },
+  {
+    id: "field-of-instruments",
+    title: "Field of Instruments",
+    subtitle: "La Défense, Paris",
+    location: "Paris",
+    category: "Installations",
+    videoUrl: "local:field-of-instruments",
+    description: "Public installation composed of 21 metallic sound instruments distributed across an open urban space.\n\nEach instrument responds to touch, scraping, and percussive gestures, producing sound through tuned physical interactions. The instruments operate as a collective system: individual actions generate discrete sonic events that interlock into a coherent, continuously evolving composition. The spatial arrangement encourages distributed participation, allowing multiple performers to play simultaneously while maintaining overall harmonic stability.\n\nCommissioned by Lynk & Co. Music by Michele Tadini.",
+    thumbnailVideo: fieldOfInstrumentsVideo
   },
   {
     id: "venice-biennale-2023",
