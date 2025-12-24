@@ -9,10 +9,11 @@ interface CinematicPlayerProps {
   videoUrl: string;
   title: string;
   isOpen: boolean;
+  startMuted?: boolean;
 }
 
-export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPlayerProps) {
-  const [isMuted, setIsMuted] = useState(false);
+export default function CinematicPlayer({ videoUrl, title, isOpen, startMuted = false }: CinematicPlayerProps) {
+  const [isMuted, setIsMuted] = useState(startMuted);
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -46,11 +47,12 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
   useEffect(() => {
     if (isOpen) {
       setIsLoaded(false);
+      setIsMuted(startMuted); // Reset muted state when dialog opens
       const timer = setTimeout(() => setIsLoaded(true), 100);
       hideControlsWithDelay();
       return () => clearTimeout(timer);
     }
-  }, [isOpen, hideControlsWithDelay]);
+  }, [isOpen, hideControlsWithDelay, startMuted]);
 
   useEffect(() => {
     return () => {
@@ -185,9 +187,10 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
                 className="mb-4"
               >
                 <div
-                  className="h-[2px] bg-white/10 rounded-full overflow-hidden cursor-pointer"
+                  className="py-3 cursor-pointer"
                   onClick={handleProgressClick}
                 >
+                  <div className="h-[2px] bg-white/10 rounded-full overflow-hidden">
                   {isLocalVideo ? (
                     // Real progress for local videos
                     <div
@@ -204,6 +207,7 @@ export default function CinematicPlayer({ videoUrl, title, isOpen }: CinematicPl
                       style={{ width: "30%" }}
                     />
                   )}
+                  </div>
                 </div>
               </motion.div>
               

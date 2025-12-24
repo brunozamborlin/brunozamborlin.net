@@ -159,7 +159,7 @@ export const about = {
 };
 
 export const technology = {
-  videoUrl: "local:tedx-sf",
+  videoUrl: "https://www.youtube.com/watch?v=7X9k73HHMyw",
   thumbnailVideo: tedVideo,
   text: [
     "By coupling vibration sensors with specialized algorithms, inanimate objects, surfaces, and entire spaces can be enabled to respond to human touch and atmospheric phenomena in real-time.",

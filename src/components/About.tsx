@@ -13,11 +13,11 @@ export default function About() {
   });
 
   // Separate scroll tracking for text reveal - ensures full animation completes
-  // Use a longer scroll range for the reveal, and rely on extra bottom padding (below)
-  // so the animation can still reach 100% even near the end of the page.
+  // Start animation when container is more visible (0.6 = 60% down viewport)
+  // End animation later (0.2 = 20% down viewport) to spread effect across longer scroll
   const { scrollYProgress: textScrollProgress } = useScroll({
     target: textContainerRef,
-    offset: ["start 0.9", "end 0.6"]
+    offset: ["start 0.6", "end 0.2"]
   });
 
   const titleY = useTransform(scrollYProgress, [0, 1], [0, 100]);
@@ -80,7 +80,7 @@ export default function About() {
             <TextReveal
               className="text-2xl md:text-4xl text-white font-light leading-tight"
               scrollYProgress={textScrollProgress}
-              range={[0, 0.45]}
+              range={[0, 0.4]}
             >
               {about.bio}
             </TextReveal>
@@ -98,7 +98,7 @@ export default function About() {
             <TextReveal
               className="text-xl md:text-2xl text-white/80 font-light leading-relaxed"
               scrollYProgress={textScrollProgress}
-              range={[0.45, 1]}
+              range={[0.4, 0.85]}
             >
               {about.practice}
             </TextReveal>

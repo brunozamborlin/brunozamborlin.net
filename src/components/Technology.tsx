@@ -37,13 +37,13 @@ export default function Technology() {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div style={{ y, opacity }}>
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="text-5xl md:text-8xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 mb-12 tracking-tighter"
             >
-              TECH<br/>NOLOGY
+              TECH<br/><span className="inline-block ml-[0.3em]">NOLOGY</span>
             </motion.h2>
             
             <div ref={textContainerRef} className="space-y-12">

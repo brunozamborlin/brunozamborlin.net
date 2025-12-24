@@ -37,8 +37,17 @@ export const HTML5Player = forwardRef<HTML5PlayerRef, HTML5PlayerProps>(
       getCurrentTime: () => videoRef.current?.currentTime || 0,
       getDuration: () => videoRef.current?.duration || 0,
       seek: (time: number) => {
-        if (videoRef.current) {
-          videoRef.current.currentTime = time;
+        const video = videoRef.current;
+        if (!video) return;
+
+        const wasPlaying = !video.paused;
+
+        // Pause, seek, play
+        video.pause();
+        video.currentTime = time;
+
+        if (wasPlaying) {
+          video.play().catch(() => {});
         }
       },
       getVideoElement: () => videoRef.current
@@ -102,10 +111,11 @@ export const HTML5Player = forwardRef<HTML5PlayerRef, HTML5PlayerProps>(
         ref={videoRef}
         src={src}
         className="absolute inset-0 w-full h-full object-contain"
+        autoPlay
         playsInline
         loop
         muted={isMuted}
-        preload="metadata"
+        preload="auto"
         style={{ backgroundColor: 'transparent' }}
       />
     );
