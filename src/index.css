@@ -178,14 +178,20 @@ button, input, textarea, select {
   pointer-events: none;
 }
 
-/* Video Brightness Hover Effect */
+/* Video Brightness Hover Effect - desktop only */
 .brightness-dim {
-  filter: brightness(0.25);
+  filter: brightness(1);
   transition: filter 700ms ease-out;
 }
 
-.group:hover .brightness-dim {
-  filter: brightness(1);
+@media (min-width: 768px) {
+  .brightness-dim {
+    filter: brightness(0.25);
+  }
+
+  .group:hover .brightness-dim {
+    filter: brightness(1);
+  }
 }
 
 /* Performance optimization for video elements */

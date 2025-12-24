@@ -41,7 +41,7 @@ export default function Technology() {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-5xl md:text-8xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 mb-12 tracking-tighter"
+              className="text-5xl md:text-8xl font-display font-bold text-white mb-12 tracking-tighter"
             >
               TECH<br/><span className="inline-block ml-[0.3em]">NOLOGY</span>
             </motion.h2>

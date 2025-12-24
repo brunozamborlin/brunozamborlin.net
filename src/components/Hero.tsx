@@ -1,9 +1,22 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useRef, useCallback } from "react";
 import heroVideo from "@assets/minigifs/hero-loop.mp4";
 
-export default function Hero() {
+interface HeroProps {
+  onVideoReady?: () => void;
+}
+
+export default function Hero({ onVideoReady }: HeroProps) {
+  const hasFiredRef = useRef(false);
   const { scrollY } = useScroll();
+
+  const handleCanPlay = useCallback(() => {
+    if (!hasFiredRef.current && onVideoReady) {
+      hasFiredRef.current = true;
+      onVideoReady();
+    }
+  }, [onVideoReady]);
   const y = useTransform(scrollY, [0, 1000], [0, 300]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
   const scale = useTransform(scrollY, [0, 1000], [1, 1.1]);
@@ -23,6 +36,7 @@ export default function Hero() {
           loop
           muted
           playsInline
+          onCanPlay={handleCanPlay}
           className="w-full h-full object-cover opacity-60 sepia-[0.15] hue-rotate-[220deg] saturate-100 contrast-110 brightness-75"
         >
           <source src={heroVideo} type="video/mp4" />
