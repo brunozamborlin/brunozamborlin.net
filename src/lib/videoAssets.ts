@@ -7,6 +7,9 @@ import airplaneInstrumentVideo from "@assets/videos/airplane-instrument.mp4";
 import plaidElexVideo from "@assets/videos/plaid-elex.mp4";
 import plaid35SummersVideo from "@assets/videos/plaid-35-summers.mp4";
 import fieldOfInstrumentsVideo from "@assets/videos/field-of-instruments.mp4";
+import mogeesPro1Video from "@assets/videos/MogeesPro1.mp4";
+import mogeesPro2Video from "@assets/videos/MogeesPro2.mp4";
+import mogeesPlayAppsVideo from "@assets/videos/MogeesPlayApps.mp4";
 
 export const localVideos = {
   "city-of-plants": cityOfPlantsVideo,
@@ -17,6 +20,9 @@ export const localVideos = {
   "plaid-elex": plaidElexVideo,
   "plaid-35-summers": plaid35SummersVideo,
   "field-of-instruments": fieldOfInstrumentsVideo,
+  "mogees-pro-1": mogeesPro1Video,
+  "mogees-pro-2": mogeesPro2Video,
+  "mogees-play-apps": mogeesPlayAppsVideo,
 } as const;
 
 export type LocalVideoId = keyof typeof localVideos;
