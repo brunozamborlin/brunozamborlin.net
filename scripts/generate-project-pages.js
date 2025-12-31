@@ -117,15 +117,15 @@ const generateHTML = (project) => `<!DOCTYPE html>
   <meta property="og:title" content="${project.title} | Bruno Zamborlin">
   <meta property="og:description" content="${project.description}">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://brunozamborlin.net/projects/${project.id}.html">
-  <meta property="og:image" content="https://brunozamborlin.net/opengraph.jpg">
+  <meta property="og:url" content="https://brunozamborlin.ai/projects/${project.id}.html">
+  <meta property="og:image" content="https://brunozamborlin.ai/opengraph.jpg">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${project.title} | Bruno Zamborlin">
   <meta name="twitter:description" content="${project.description}">
-  <meta name="twitter:image" content="https://brunozamborlin.net/opengraph.jpg">
+  <meta name="twitter:image" content="https://brunozamborlin.ai/opengraph.jpg">
 
-  <link rel="canonical" href="https://brunozamborlin.net/projects/${project.id}.html">
+  <link rel="canonical" href="https://brunozamborlin.ai/projects/${project.id}.html">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <script type="application/ld+json">
@@ -137,9 +137,9 @@ const generateHTML = (project) => `<!DOCTYPE html>
     "author": {
       "@type": "Person",
       "name": "Bruno Zamborlin",
-      "url": "https://brunozamborlin.net"
+      "url": "https://brunozamborlin.ai"
     },
-    "url": "https://brunozamborlin.net/projects/${project.id}.html"
+    "url": "https://brunozamborlin.ai/projects/${project.id}.html"
   }
   </script>
 

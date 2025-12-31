@@ -1,7 +1,7 @@
-# robots.txt for brunozamborlin.net
+# robots.txt for brunozamborlin.ai
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://brunozamborlin.net/sitemap.xml
+Sitemap: https://brunozamborlin.ai/sitemap.xml
